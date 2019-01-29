@@ -69,6 +69,17 @@ class ViewController: UIViewController{
         calendarView.minimumLineSpacing = 0
         calendarView.minimumInteritemSpacing = 0
         calendarView.allowsMultipleSelection = true
+        calendarView.visibleDates{   (visibleDates) in
+            self.setUpCalenderMonthYear(from: visibleDates)
+        }
+    }
+    func setUpCalenderMonthYear(from visibleDates:DateSegmentInfo){
+        let date = visibleDates.monthDates.first!.date
+        self.formatter.dateFormat = "yyyy"
+        self.year.text = self.formatter.string(from: date)
+        self.formatter.dateFormat = "MMMM"
+        self.month.text = self.formatter.string(from: date)
+
     }
     
 }
@@ -109,10 +120,6 @@ extension ViewController: JTAppleCalendarViewDelegate{
         handleCellView(cell: cell, cellState: cellState)
     }
     func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo){
-        let date = visibleDates.monthDates.first!.date
-        formatter.dateFormat = "yyyy"
-        year.text = formatter.string(from: date)
-        formatter.dateFormat = "MMMM"
-        month.text = formatter.string(from: date)
+        self.setUpCalenderMonthYear(from: visibleDates)
     }
 }
