@@ -12,6 +12,8 @@ import JTAppleCalendar
 class ViewController: UIViewController{
     let formatter = DateFormatter()
     @IBOutlet weak var calendarView: JTAppleCalendarView!
+    @IBOutlet weak var month: UILabel!
+    @IBOutlet weak var year: UILabel!
     let todayTextColor = UIColor.red
     let thisMonthTextColor = UIColor.black
     let selectedDateTextColor = UIColor.white
@@ -106,5 +108,11 @@ extension ViewController: JTAppleCalendarViewDelegate{
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         handleCellView(cell: cell, cellState: cellState)
     }
-    
+    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo){
+        let date = visibleDates.monthDates.first!.date
+        formatter.dateFormat = "yyyy"
+        year.text = formatter.string(from: date)
+        formatter.dateFormat = "MMMM"
+        month.text = formatter.string(from: date)
+    }
 }
